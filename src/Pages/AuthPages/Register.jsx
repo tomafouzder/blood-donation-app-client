@@ -7,9 +7,26 @@ import axios from 'axios';
 
 const Register = () => {
     const { user, createUser, setUser, updateUserProfile } = useContext(AuthContext)
+    const [upazilas, setUpazilas] = useState([]);
+    const [districts, setDistricts] = useState([]);
+    const [district, setDistrict] = useState('');
+    const [upazila, setUpazila] = useState('');
     const [show, setShow] = useState(false);
     const [passwordError, setPasswordError] = useState("");
     const navigate = useNavigate();
+
+    useEffect(() => {
+        axios.get('/upazila.json')
+            .then(res => {
+                setUpazilas(res.data.upazilas)
+            })
+
+        axios.get('/district.json')
+            .then(res => {
+
+                setDistricts(res.data.districts)
+            })
+    }, [])
 
     useEffect(() => {
         if (user) { navigate("/"); }
@@ -46,9 +63,8 @@ const Register = () => {
         const photo = form.photo
         const file = photo.files[0]
         const password = form.password.value;
-        const role = form.role.value
-        console.log(role)
-      
+        const bloodGroup = form.bloodGroup.value
+
 
 
         // Prevent submit if password invalid
@@ -71,8 +87,10 @@ const Register = () => {
             name,
             email,
             mainPhotoUrl,
-            role,
+            bloodGroup,
             password,
+            district,
+            upazila,
         }
 
         if (res.data.success == true) {
@@ -150,13 +168,37 @@ const Register = () => {
                                         placeholder="Choose file" />
 
 
-                                    {/* role */}
-                                     <label className="label font-semibold ">Choose Role</label>
-                                    <select name='role' defaultValue="Choose Role" className="select bg-gray-400">
-                                        <option disabled={true}>Choose Role</option>
-                                        <option value='volunteer'>Volunteer</option>
-                                        <option value='donor'>Donor</option>
+                                    {/* blood group */}
+                                    <label className="label font-semibold "> Select Blood Group</label>
+                                    <select name='bloodGroup' defaultValue="Select Blood Group" className="select bg-gray-400">
+                                        <option value="">-- Select Blood Group --</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                    </select>
 
+
+                                    {/* districts */}
+                                    <label className="label font-semibold "> Select Your District</label>
+                                    <select value={district} onChange={(e) => setDistrict(e.target.value)} className="select bg-gray-400">
+                                        <option value="">Select Your District</option>
+                                        {
+                                            districts?.map(d => <option key={d.id} value={d?.name}>{d?.name}</option>)
+                                        }
+                                    </select>
+
+                                    {/* upazila */}
+                                    <label className="label font-semibold "> Select Your Upazila </label>
+                                    <select value={upazila} onChange={(e) => setUpazila(e.target.value)} className="select bg-gray-400">
+                                        <option value="">Select Your Upazila</option>
+                                        {
+                                            upazilas?.map(u => <option key={u.id} value={u?.name}>{u?.name}</option>)
+                                        }
                                     </select>
 
                                     {/* Password */}

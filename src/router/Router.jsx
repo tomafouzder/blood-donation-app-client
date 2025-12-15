@@ -6,6 +6,7 @@ import Register from "../Pages/AuthPages/Register";
 import ForgotPassword from "../Pages/AuthPages/ForgotPassword";
 import DashBoardLayout from "../Layouts/DashBoardLayout/DashBoardLayout";
 import MainDashboard from "../Pages/Dashboard/MainDashboard/MainDashboard";
+import AddRequest from "../Pages/Dashboard/AddRequest/AddRequest";
 
 
 const router = createBrowserRouter([
@@ -32,12 +33,16 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: "/dashboard",
+        path: "dashboard",
         element: <DashBoardLayout />,
         children: [
             {
-                path: "/dashboard/main",
+                path: "main",
                 element: <MainDashboard />
+            },
+            {
+                path:"add-request",
+                element:<AddRequest/>
             }
         ]
     }

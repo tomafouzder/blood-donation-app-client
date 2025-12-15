@@ -50,13 +50,13 @@ const Aside = () => {
                 </NavLink>
 
                 <NavLink
-                    to="/dashboard/users"
+                    to="/dashboard/add-request"
                     className={({ isActive }) =>
                         `${menuItem} ${isActive ? activeItem : ""}`
                     }
                 >
                     <FaUsers />
-                    Users
+                   Add-Request
                 </NavLink>
 
                 <NavLink

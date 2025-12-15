@@ -13,9 +13,7 @@ import axios from 'axios';
 
 
 export const AuthContext = createContext();
-
 const auth = getAuth(app);
-
 
 
 const AuthProvider = ({ children }) => {
@@ -93,6 +91,7 @@ const AuthProvider = ({ children }) => {
         updateUserProfile,
         resetPassword,
         userSignOut,
+        role
 
     }
 

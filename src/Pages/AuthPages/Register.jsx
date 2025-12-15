@@ -46,7 +46,9 @@ const Register = () => {
         const photo = form.photo
         const file = photo.files[0]
         const password = form.password.value;
-
+        const role = form.role.value
+        console.log(role)
+      
 
 
         // Prevent submit if password invalid
@@ -69,6 +71,7 @@ const Register = () => {
             name,
             email,
             mainPhotoUrl,
+            role,
             password,
         }
 
@@ -100,10 +103,6 @@ const Register = () => {
                     alert(errorMessage);
                 });
         }
-
-
-
-
 
     };
 
@@ -149,6 +148,16 @@ const Register = () => {
                                         className="input bg-gray-400   "
                                         required
                                         placeholder="Choose file" />
+
+
+                                    {/* role */}
+                                     <label className="label font-semibold ">Choose Role</label>
+                                    <select name='role' defaultValue="Choose Role" className="select bg-gray-400">
+                                        <option disabled={true}>Choose Role</option>
+                                        <option value='volunteer'>Volunteer</option>
+                                        <option value='donor'>Donor</option>
+
+                                    </select>
 
                                     {/* Password */}
                                     <div className='relative'>

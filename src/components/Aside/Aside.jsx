@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from "react-router";
 import {
     FaTachometerAlt,
@@ -6,14 +6,30 @@ import {
     FaHandHoldingHeart,
     FaUserShield,
     FaSignOutAlt,
+    FaSignInAlt,
 } from "react-icons/fa";
+import { AuthContext } from '../../provider/AuthProvider';
+import Swal from 'sweetalert2';
 
 const Aside = () => {
+    const { user, role, userSignOut } = useContext(AuthContext)
+
+    const handleLogOut = () => {
+        userSignOut()
+
+            .then(() => {
+                Swal.fire("Sign-out successful!")
+            }).catch((error) => {
+                console.log(error);
+            });
+    }
+
     const menuItem =
         "flex items-center gap-3 px-4 py-3 rounded-lg transition text-gray-300 hover:bg-gray-700 hover:text-white";
 
     const activeItem =
         "bg-gray-700 text-white font-semibold";
+
 
     return (
         <aside className="w-64 min-h-screen bg-gray-900 border-r border-gray-800">
@@ -49,15 +65,32 @@ const Aside = () => {
                     Dashboard
                 </NavLink>
 
-                <NavLink
-                    to="/dashboard/add-request"
-                    className={({ isActive }) =>
-                        `${menuItem} ${isActive ? activeItem : ""}`
-                    }
-                >
-                    <FaUsers />
-                   Add-Request
-                </NavLink>
+                {
+                    role == "donor" && (<NavLink
+                        to="/dashboard/add-request"
+                        className={({ isActive }) =>
+                            `${menuItem} ${isActive ? activeItem : ""}`
+                        }
+                    >
+                        <FaUsers />
+                        Add-Request
+                    </NavLink>)
+                }
+
+
+                {
+                    role == "admin" && (<NavLink
+                        to="/dashboard/all-users"
+                        className={({ isActive }) =>
+                            `${menuItem} ${isActive ? activeItem : ""}`
+                        }
+                    >
+                        <FaUsers />
+                        All Users
+                    </NavLink>)
+                }
+
+
 
                 <NavLink
                     to="/dashboard/donations"
@@ -82,11 +115,13 @@ const Aside = () => {
 
             {/* Logout */}
             <div className="px-3 py-4 border-t border-gray-800">
-                <button className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-gray-700 rounded-lg transition">
+                <button onClick={handleLogOut} className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-gray-700 rounded-lg transition">
                     <FaSignOutAlt />
                     Logout
                 </button>
             </div>
+
+
         </aside>
     );
 };

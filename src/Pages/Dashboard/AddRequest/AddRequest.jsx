@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaTint, FaPaperPlane } from "react-icons/fa";
 import { AuthContext } from '../../../provider/AuthProvider';
 import axios from 'axios';
-import useAxios from '../../../hooks/useAxios';
+import useAxiosSecure from '../../../hooks/useAxiosSecure';
 
 const AddRequest = () => {
     const { user } = useContext(AuthContext)
@@ -11,8 +11,7 @@ const AddRequest = () => {
     const [districts, setDistricts] = useState([]);
     const [district, setDistrict] = useState('');
     const [upazila, setUpazila] = useState('');
-
-    const axiosInstance = useAxios();
+    const axiosSecure = useAxiosSecure()
 
     useEffect(() => {
         axios.get('/upazila.json')
@@ -58,7 +57,7 @@ const AddRequest = () => {
             status: 'pending'
         }
 
-        axiosInstance.post('/requests', formData)
+        axiosSecure.post('/requests', formData)
             .then(res => {
                 alert(res.data.insertedId)
             })

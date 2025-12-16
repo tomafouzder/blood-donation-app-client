@@ -7,6 +7,8 @@ import ForgotPassword from "../Pages/AuthPages/ForgotPassword";
 import DashBoardLayout from "../Layouts/DashBoardLayout/DashBoardLayout";
 import MainDashboard from "../Pages/Dashboard/MainDashboard/MainDashboard";
 import AddRequest from "../Pages/Dashboard/AddRequest/AddRequest";
+import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
+import PrivateRoute from "./PrivateRoute";
 
 
 const router = createBrowserRouter([
@@ -34,15 +36,19 @@ const router = createBrowserRouter([
     },
     {
         path: "dashboard",
-        element: <DashBoardLayout />,
+        element: <PrivateRoute><DashBoardLayout /></PrivateRoute>,
         children: [
             {
                 path: "main",
                 element: <MainDashboard />
             },
             {
-                path:"add-request",
-                element:<AddRequest/>
+                path: "add-request",
+                element: <AddRequest />
+            },
+            {
+                path: "all-users",
+                element: <AllUsers />
             }
         ]
     }

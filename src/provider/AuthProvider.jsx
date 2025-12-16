@@ -13,6 +13,7 @@ import axios from 'axios';
 
 
 export const AuthContext = createContext();
+
 const auth = getAuth(app);
 
 
@@ -21,6 +22,7 @@ const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
     const [roleLoading, setRoleLoading] = useState(true);
     const [role, setRole] = useState('');
+    const [userStatus, setUserStatus] = useState('')
 
 
     // Create user:
@@ -75,11 +77,12 @@ const AuthProvider = ({ children }) => {
         axios.get(`http://localhost:5000/users/role/${user.email}`)
             .then(res => {
                 setRole(res.data.role)
+                setUserStatus(res.data.status)
                 setRoleLoading(false)
             })
 
     }, [user])
-    console.log(role)
+
 
 
 
@@ -93,7 +96,8 @@ const AuthProvider = ({ children }) => {
         resetPassword,
         userSignOut,
         role,
-        roleLoading
+        roleLoading,
+        userStatus
 
     }
 

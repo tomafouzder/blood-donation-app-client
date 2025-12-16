@@ -4,7 +4,7 @@ import Aside from '../../components/Aside/Aside';
 
 const DashBoardLayout = () => {
     return (
-        <div className='flex gap-2 '>
+        <div className='flex gap-10 '>
             <Aside/>
             <Outlet></Outlet>
         </div>

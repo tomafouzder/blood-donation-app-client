@@ -12,7 +12,7 @@ import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
 
 const Aside = () => {
-    const { user, role, userSignOut } = useContext(AuthContext)
+    const { role, userSignOut } = useContext(AuthContext)
 
     const handleLogOut = () => {
         userSignOut()
@@ -66,7 +66,8 @@ const Aside = () => {
                 </NavLink>
 
                 {
-                    role == "donor" && (<NavLink
+                    role == "donor" && (
+                    <NavLink
                         to="/dashboard/add-request"
                         className={({ isActive }) =>
                             `${menuItem} ${isActive ? activeItem : ""}`
@@ -74,7 +75,9 @@ const Aside = () => {
                     >
                         <FaUsers />
                         Add-Request
-                    </NavLink>)
+                    </NavLink>
+                    
+                    )
                 }
 
 
@@ -93,13 +96,13 @@ const Aside = () => {
 
 
                 <NavLink
-                    to="/dashboard/donations"
+                    to="/dashboard/my-request"
                     className={({ isActive }) =>
                         `${menuItem} ${isActive ? activeItem : ""}`
                     }
                 >
                     <FaHandHoldingHeart />
-                    Donations
+                    My-Request
                 </NavLink>
 
                 <NavLink

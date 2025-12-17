@@ -9,6 +9,9 @@ import MainDashboard from "../Pages/Dashboard/MainDashboard/MainDashboard";
 import AddRequest from "../Pages/Dashboard/AddRequest/AddRequest";
 import AllUsers from "../Pages/Dashboard/AllUsers/AllUsers";
 import PrivateRoute from "./PrivateRoute";
+import MyRequest from "../Pages/Dashboard/MyRequest/MyRequest";
+import Donate from "../Pages/Donate/Donate";
+import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 
 
 const router = createBrowserRouter([
@@ -32,6 +35,14 @@ const router = createBrowserRouter([
                 path: "/forgot-password",
                 element: <ForgotPassword />
             },
+            {
+                path: "/donate",
+                element: <Donate />
+            },
+            {
+                path: "/payment-success",
+                element: <PaymentSuccess />
+            },
         ]
     },
     {
@@ -49,6 +60,10 @@ const router = createBrowserRouter([
             {
                 path: "all-users",
                 element: <AllUsers />
+            },
+            {
+                path: "my-request",
+                element: <MyRequest />
             }
         ]
     }

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import {
     FaTachometerAlt,
     FaUsers,
@@ -10,9 +10,10 @@ import {
 } from "react-icons/fa";
 import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
+import AsideLinks from '../AsideLinks/AsideLinks';
 
 const Aside = () => {
-    const { role, userSignOut } = useContext(AuthContext)
+    const { role, user, userSignOut } = useContext(AuthContext)
 
     const handleLogOut = () => {
         userSignOut()
@@ -24,11 +25,7 @@ const Aside = () => {
             });
     }
 
-    const menuItem =
-        "flex items-center gap-3 px-4 py-3 rounded-lg transition text-gray-300 hover:bg-gray-700 hover:text-white";
 
-    const activeItem =
-        "bg-gray-700 text-white font-semibold";
 
 
     return (
@@ -36,92 +33,91 @@ const Aside = () => {
             {/* Logo */}
             <div className="px-6 py-5 border-b border-gray-800">
                 <h1 className="text-xl font-bold text-red-500">
-                    Blood<span className="text-white">Admin</span>
+                    Blood<span className="text-white">Vessel.</span>
                 </h1>
-                <p className="text-xs text-gray-400 mt-1">Admin Dashboard</p>
+                <p className="text-xs text-gray-400 mt-1">My Dashboard</p>
             </div>
 
             {/* Admin Info */}
             <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-800">
                 <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold">
-                    A
+                    {user?.displayName?.charAt(0) || "U"}
                 </div>
                 <div>
-                    <p className="text-sm text-white font-semibold">Admin</p>
-                    <p className="text-xs text-gray-400">Super Admin</p>
+                    <p className="text-sm text-white font-semibold">{user?.displayName || "Unknown User"}</p>
+                    <p className="text-xs text-gray-400">{user?.email || ""}</p>
                 </div>
             </div>
 
             {/* Menu */}
             <nav className="px-3 py-4 space-y-1">
-                <NavLink
+
+                <AsideLinks
                     to="/dashboard/main"
                     end
-                    className={({ isActive }) =>
-                        `${menuItem} ${isActive ? activeItem : ""}`
-                    }
                 >
                     <FaTachometerAlt />
                     Dashboard
-                </NavLink>
+                </AsideLinks>
+
+                <AsideLinks
+                    to="/dashboard/profile"
+                >
+                    <FaUserShield />
+                    My Profile
+                </AsideLinks>
+
+
 
                 {
                     role == "donor" && (
-                    <NavLink
-                        to="/dashboard/add-request"
-                        className={({ isActive }) =>
-                            `${menuItem} ${isActive ? activeItem : ""}`
-                        }
-                    >
-                        <FaUsers />
-                        Add-Request
-                    </NavLink>
-                    
+                        <AsideLinks
+                            to="/dashboard/add-request"
+
+
+                        >
+                            <FaUsers />
+                            Create Request
+                        </AsideLinks>
+
                     )
                 }
 
 
                 {
-                    role == "admin" && (<NavLink
+                    role == "admin" && (<AsideLinks
                         to="/dashboard/all-users"
-                        className={({ isActive }) =>
-                            `${menuItem} ${isActive ? activeItem : ""}`
-                        }
                     >
                         <FaUsers />
                         All Users
-                    </NavLink>)
+                    </AsideLinks>)
                 }
 
 
 
-                <NavLink
-                    to="/dashboard/my-request"
-                    className={({ isActive }) =>
-                        `${menuItem} ${isActive ? activeItem : ""}`
-                    }
+                <AsideLinks
+                    to="/dashboard/all-request"
+
                 >
                     <FaHandHoldingHeart />
-                    My-Request
-                </NavLink>
+                   All Donation Requests
+                </AsideLinks>
 
-                <NavLink
-                    to="/dashboard/admins"
-                    className={({ isActive }) =>
-                        `${menuItem} ${isActive ? activeItem : ""}`
-                    }
-                >
-                    <FaUserShield />
-                    Admins
-                </NavLink>
             </nav>
 
             {/* Logout */}
             <div className="px-3 py-4 border-t border-gray-800">
+
+                <Link to={"/"} className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-gray-700 rounded-lg transition">
+                    <FaSignOutAlt />
+                    Home
+                </Link>
+
                 <button onClick={handleLogOut} className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-gray-700 rounded-lg transition">
                     <FaSignOutAlt />
                     Logout
                 </button>
+
             </div>
 
 

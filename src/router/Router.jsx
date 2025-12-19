@@ -14,6 +14,9 @@ import Donate from "../Pages/Donate/Donate";
 import PaymentSuccess from "../Pages/PaymentSuccess/PaymentSuccess";
 import SearchRequest from "../Pages/SearchRequest/SearchRequest";
 import DonationRequests from "../Pages/DonationRequests/DonationRequests";
+import UpdateRequest from "../Pages/Dashboard/UpdateRequest/UpdateRequest";
+import AllRequest from "../Pages/AllRequest/AllRequest";
+import Profile from "../Pages/Dashboard/Profile/Profile";
 
 
 const router = createBrowserRouter([
@@ -72,9 +75,17 @@ const router = createBrowserRouter([
                 element: <AllUsers />
             },
             {
-                path: "my-request",
-                element: <MyRequest />
-            }
+                path: "all-request",
+                element: <AllRequest />
+            },
+            {
+                path: "profile",
+                element: <Profile />
+            },
+            {
+                path: "update-request/:id",
+                element: <UpdateRequest />
+            },
         ]
     }
 ]);

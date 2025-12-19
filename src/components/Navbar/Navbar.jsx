@@ -37,7 +37,7 @@ const Navbar = () => {
 
     return (
         <div
-            className={`navbar shadow-sm fixed top-0 left-0 w-full -z-50 transition-all duration-300  ${scrolled ? "bg-white" : "bg-transparent"}`}
+            className={`navbar shadow-sm fixed top-0 left-0 w-full -z-50 transition-all duration-300  ${scrolled ? "bg-white " : "bg-transparent"}`}
         >
             <MyContainer className="navbar ">
                 <div className=" navbar-start gap-16 md:gap-6">

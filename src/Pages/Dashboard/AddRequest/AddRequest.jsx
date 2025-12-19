@@ -71,7 +71,7 @@ const AddRequest = () => {
         <div className="max-w-4xl mx-auto p-6">
             <div className="card bg-base-100 shadow-xl">
                 <div className="card-body">
-                    <h2 className="text-2xl font-bold flex items-center gap-2 text-error">
+                    <h2 className="text-2xl  font-bold flex items-center gap-2 text-error">
                         <FaTint /> Blood Donation Request
                     </h2>
 

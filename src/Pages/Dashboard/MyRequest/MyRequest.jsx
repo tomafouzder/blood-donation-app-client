@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FaCheck, FaEdit, FaEye, FaTimes, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router';
+import Swal from 'sweetalert2';
 
 const MyRequest = () => {
     const axiosSecure = useAxiosSecure();
@@ -10,13 +11,19 @@ const MyRequest = () => {
     const [requestPerPage, setRequestPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
 
-    useEffect(() => {
+    const fetchRequest = () => {
         axiosSecure.get(`/my-request?size=${requestPerPage}&page=${currentPage - 1}`)
             .then(res => {
                 setMyRequest(res.data.request)
                 setTotalRequest(res.data.totalRequest)
             })
-    }, [axiosSecure, currentPage, requestPerPage])
+    }
+
+    useEffect(() => {
+        fetchRequest();
+    }, [axiosSecure])
+
+
 
     const numberOfPage = Math.ceil(totalRequest / requestPerPage)
     const pages = [...Array(numberOfPage).keys()].map(e => e + 1)
@@ -34,6 +41,49 @@ const MyRequest = () => {
         }
     }
 
+
+    const handleRequestDelete = (id) => {
+        console.log(id)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axiosSecure.delete(`/delete-request/${id}`)
+                    .then(res => {
+                        console.log(res.data);
+
+                        if (res.data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your blood request has been deleted.",
+                                icon: "success"
+                            });
+
+                            setMyRequest(prev => prev.filter(r => r._id !== id));
+                            setTotalRequest(prev => prev - 1);
+                        }
+                    })
+
+
+
+            }
+        });
+    }
+
+    const handleStatusChange = (id, status) => {
+        axiosSecure.patch(`/update/request/status?id=${id}&status=${status}`)
+            .then(res => {
+                console.log(res.data)
+                fetchRequest();
+            })
+    }
 
 
     return (
@@ -60,7 +110,7 @@ const MyRequest = () => {
                         {
                             myRequest.map((request, index) =>
                                 <tr key={request._id} className="text-gray-800  " >
-                                    <th>{(currentPage * 10) + (index + 1) - 10}</th> 
+                                    <th>{(currentPage * 10) + (index + 1) - 10}</th>
                                     <td>{request.recipientName}</td>
                                     <td>{request.district}, {request.upazila}</td>
                                     <td>{request.donationDate}</td>
@@ -98,16 +148,16 @@ const MyRequest = () => {
                                     {/* done/cancel */}
                                     <td className="">
                                         {/* Status Buttons */}
-                                        {request.status === "inprogress" ? (
+                                        {request?.status === "inprogress" ? (
                                             <div>
                                                 <button
-                                                    // onClick={() => handleStatusChange(req._id, "done")}
+                                                    onClick={() => handleStatusChange(request._id, "done")}
                                                     className="btn btn-xs btn-success mr-2"
                                                 >
                                                     <FaCheck />
                                                 </button>
                                                 <button
-                                                    // onClick={() => handleStatusChange(req._id, "canceled")}
+                                                    onClick={() => handleStatusChange(request._id, "canceled")}
                                                     className="btn btn-xs btn-outline btn-error"
                                                 >
                                                     <FaTimes />
@@ -129,7 +179,7 @@ const MyRequest = () => {
                                         </Link>
 
                                         <button
-                                            // onClick={() => handleDelete(req._id)}
+                                            onClick={() => handleRequestDelete(request._id)}
                                             className="btn btn-xs btn-error"
                                         >
                                             <FaTrash />
@@ -141,7 +191,7 @@ const MyRequest = () => {
                                     {/* view */}
                                     <td>
                                         <Link
-                                            to={`/dashboard/request/${request._id}`}
+                                            to={`/dashboard/request-details/${request._id}`}
                                             className="btn btn-xs btn-info"
                                         >
                                             <FaEye />

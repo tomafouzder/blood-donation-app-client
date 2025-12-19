@@ -17,6 +17,7 @@ import DonationRequests from "../Pages/DonationRequests/DonationRequests";
 import UpdateRequest from "../Pages/Dashboard/UpdateRequest/UpdateRequest";
 import AllRequest from "../Pages/AllRequest/AllRequest";
 import Profile from "../Pages/Dashboard/Profile/Profile";
+import RequestDetails from "../Pages/Dashboard/RequestDetails/RequestDetails";
 
 
 const router = createBrowserRouter([
@@ -85,6 +86,10 @@ const router = createBrowserRouter([
             {
                 path: "update-request/:id",
                 element: <UpdateRequest />
+            },
+            {
+                path: "request-details/:id",
+                element: <RequestDetails />
             },
         ]
     }

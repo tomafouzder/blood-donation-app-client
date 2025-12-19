@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../../provider/AuthProvider';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import { FaEdit, FaSave } from "react-icons/fa";
+import Swal from 'sweetalert2';
 
 const Profile = () => {
     const { user } = useContext(AuthContext);
@@ -10,14 +11,14 @@ const Profile = () => {
     const [profile, setProfile] = useState({});
     const [editable, setEditable] = useState(false);
 
-    // Load user profile
-    useEffect(() => {
-        if (user?.email) {
-            axiosSecure.get(`/users/profile/${user.email}`)
-                .then(res => setProfile(res.data))
-                .catch(err => console.error(err));
-        }
-    }, [user, axiosSecure]);
+    // // Load user profile
+    // useEffect(() => {
+    //     if (user?.email) {
+    //         axiosSecure.get(`/users/profile/${user.email}`)
+    //             .then(res => setProfile(res.data))
+    //             .catch(err => console.error(err));
+    //     }
+    // }, [user, axiosSecure]);
 
     // Handle input change
     const handleChange = (e) => {
@@ -29,9 +30,9 @@ const Profile = () => {
     const handleSave = async (e) => {
         e.preventDefault();
         try {
-            const res = await axiosSecure.put(`/users/profile/${user.email}`, profile);
+            const res = await axiosSecure.put(`/users/update-profile/${user.email}`, profile);
             if (res.data.success) {
-                alert("Profile updated successfully!");
+                Swal.fire("Updated!", "Profile updated successfully", "success");
                 setEditable(false);
             }
         } catch (error) {
@@ -42,7 +43,7 @@ const Profile = () => {
 
     return (
         <div className="">
-    
+
 
             {/* Main Content */}
             <div className="flex-1 p-6">
@@ -98,8 +99,8 @@ const Profile = () => {
                             <label className="label">Avatar URL</label>
                             <input
                                 type="text"
-                                name="avatar"
-                                value={profile?.avatar || ''}
+                                name="mainPhotoUrl"
+                                value={profile?.mainPhotoUrl || ''}
                                 onChange={handleChange}
                                 disabled={!editable}
                                 className={`input input-bordered w-full ${!editable && 'bg-gray-100'}`}

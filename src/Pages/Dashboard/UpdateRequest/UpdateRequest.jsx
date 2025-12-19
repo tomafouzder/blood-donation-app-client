@@ -1,6 +1,7 @@
 import React from 'react';
 
 const UpdateRequest = () => {
+    
     return (
         <div>
             Update request

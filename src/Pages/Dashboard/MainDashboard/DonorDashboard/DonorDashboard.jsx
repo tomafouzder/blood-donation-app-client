@@ -3,6 +3,7 @@ import { Link } from "react-router";
 import { FaEye, FaEdit, FaTrash, FaCheck, FaTimes } from "react-icons/fa";
 import { AuthContext } from "../../../../provider/AuthProvider";
 import useAxiosSecure from "../../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
 const DonorDashboard = () => {
@@ -10,9 +11,7 @@ const DonorDashboard = () => {
     const axiosSecure = useAxiosSecure();
     const [request, setRequest] = useState()
 
-
-
-    useEffect(() => {
+    const fetchRequest = () => {
         if (!user?.email) return;
 
         axiosSecure.get('/resent-request')
@@ -20,11 +19,54 @@ const DonorDashboard = () => {
                 setRequest(res.data)
 
             });
+    }
+
+    useEffect(() => {
+        fetchRequest
     }, [axiosSecure, user]);
 
+    const handleRequestDelete = (id) => {
+        console.log(id)
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                axiosSecure.delete(`/delete-request/${id}`)
+                    .then(res => {
+                        console.log(res.data);
+
+                        if (res.data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your blood request has been deleted.",
+                                icon: "success"
+                            });
+
+                            const remainingData = request.filter(req => req._id !== id);
+                            setRequest(remainingData)
+                        }
+                    })
 
 
 
+            }
+        });
+    }
+
+    const handleStatusChange = (id, status) => {
+        axiosSecure.patch(`/update/request/status?id=${id}&status=${status}`)
+            .then(res => {
+                console.log(res.data)
+                fetchRequest();
+            })
+    }
 
     return (
         <div>
@@ -97,13 +139,13 @@ const DonorDashboard = () => {
                                             {req.status === "inprogress" ? (
                                                 <div>
                                                     <button
-                                                        // onClick={() => handleStatusChange(req._id, "done")}
+                                                        onClick={() => handleStatusChange(req?._id, "done")}
                                                         className="btn btn-xs btn-success mr-2"
                                                     >
                                                         <FaCheck />
                                                     </button>
                                                     <button
-                                                        // onClick={() => handleStatusChange(req._id, "canceled")}
+                                                        onClick={() => handleStatusChange(req?._id, "canceled")}
                                                         className="btn btn-xs btn-outline btn-error"
                                                     >
                                                         <FaTimes />
@@ -125,7 +167,7 @@ const DonorDashboard = () => {
                                             </Link>
 
                                             <button
-                                                // onClick={() => handleDelete(req._id)}
+                                                onClick={() => handleRequestDelete(req._id)}
                                                 className="btn btn-xs btn-error"
                                             >
                                                 <FaTrash />
@@ -137,7 +179,7 @@ const DonorDashboard = () => {
                                         {/* view */}
                                         <td>
                                             <Link
-                                                to={`/dashboard/request/${req._id}`}
+                                                to={`/dashboard/request-details/${req._id}`}
                                                 className="btn btn-xs btn-info"
                                             >
                                                 <FaEye />

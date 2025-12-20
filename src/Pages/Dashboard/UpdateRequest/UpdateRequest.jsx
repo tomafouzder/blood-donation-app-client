@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { AuthContext } from '../../../provider/AuthProvider';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import axios from 'axios';
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 
 const UpdateRequest = () => {
     const { id } = useParams();
-    const { user } = useContext(AuthContext)
+
     const axiosSecure = useAxiosSecure()
 
     const [upazilas, setUpazilas] = useState([]);
@@ -56,7 +56,7 @@ const UpdateRequest = () => {
         const hospitalName = form.hospitalName.value
         const address = form.address.value
         const bloodGroup = form.bloodGroup.value
-        const donorStatus = form.donorStatus.value
+        const status = form.status.value
         const donationDate = form.donationDate.value
         const donationTime = form.donationTime.value
         const message = form.message.value
@@ -68,7 +68,7 @@ const UpdateRequest = () => {
             hospitalName,
             address,
             bloodGroup,
-            donorStatus,
+            status,
             donationDate,
             donationTime,
             message,
@@ -91,7 +91,7 @@ const UpdateRequest = () => {
 
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
+        <div className="max-w-4xl overflow-y-auto mx-auto p-6">
             <div className="card rounded-xl bg-base-100 shadow-xl border-b-4 border-t-8 border-blue-950">
 
                 <div className="bg-red-600 text-white p-6 flex items-center ">
@@ -162,7 +162,7 @@ const UpdateRequest = () => {
                         {/* Blood Group */}
                         <div>
                             <label className="label">Donor Status</label>
-                            <select name="donorStatus" required
+                            <select name="status" required
                                 defaultValue={requests?.donorStatus}
                                 className="select select-bordered w-full">
                                 <option value="">Select Donor Status</option>

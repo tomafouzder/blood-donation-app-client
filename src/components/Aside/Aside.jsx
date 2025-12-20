@@ -112,7 +112,7 @@ const Aside = () => {
             </nav>
 
             {/* Logout */}
-            <div className="px-3 grid grid-cols-1 gap-4 pt-24 border-t border-gray-600">
+            <div className="px-3 grid grid-cols-1 gap-4 pt-10 border-t border-gray-600">
 
                 <Link to={"/"} className=" btn btn-outline text-white hover:bg-gray-700 rounded-lg ">
                    <FaHome />

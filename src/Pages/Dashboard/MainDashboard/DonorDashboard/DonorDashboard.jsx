@@ -7,11 +7,14 @@ import Swal from "sweetalert2";
 
 
 const DonorDashboard = () => {
-    const { user, loading } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
     const [request, setRequest] = useState([])
+    const [refetch, setRefetch] = useState();
 
-    const fetchRequest = () => {
+
+
+    useEffect(() => {
         if (!user?.email) return;
 
         axiosSecure.get('/resent-request')
@@ -19,12 +22,7 @@ const DonorDashboard = () => {
                 setRequest(res.data || [])
 
             });
-    }
-    console.log(request)
-
-    useEffect(() => {
-        fetchRequest
-    }, [axiosSecure, user?.email]);
+    }, [axiosSecure, user?.email, refetch]);
 
     const handleRequestDelete = (id) => {
         console.log(id)
@@ -65,16 +63,18 @@ const DonorDashboard = () => {
         axiosSecure.patch(`/update/request/status?id=${id}&status=${status}`)
             .then(res => {
                 console.log(res.data)
-                fetchRequest();
+                setRefetch(res.data)
             })
     }
 
-    return (
-        <div>
 
-            { request?.length > 0 && (
-                <div className="bg-red-50  shadow">
-                    <div className="px-4 py-6 ">
+
+    return (
+        <div className="">
+
+            {request?.length > 0 && (
+                <div className="bg-red-50   shadow">
+                    <div className="px-4 pt-6 ">
                         <h2 className="text-xl font-bold ">
                             My Recent Donation Requests :
                         </h2>

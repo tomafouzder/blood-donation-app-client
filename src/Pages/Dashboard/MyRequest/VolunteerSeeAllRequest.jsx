@@ -3,6 +3,7 @@ import { FaCheck, FaEdit, FaEye, FaTimes, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router';
 import Swal from 'sweetalert2';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { AiOutlineClose } from 'react-icons/ai';
 
 
 const VolunteerSeeAllRequest = () => {
@@ -11,6 +12,8 @@ const VolunteerSeeAllRequest = () => {
     const [myRequest, setMyRequest] = useState([]);
     const [requestPerPage, setRequestPerPage] = useState(10);
     const [currentPage, setCurrentPage] = useState(1);
+    const [isOpen, setIsOpen] = useState(null);
+   
 
     const fetchRequest = () => {
         axiosSecure.get(`/all-requests?size=${requestPerPage}&page=${currentPage - 1}`)
@@ -47,6 +50,31 @@ const VolunteerSeeAllRequest = () => {
                 fetchRequest();
             })
     }
+
+    const handleUpdateSubmit = (e) => {
+        e.preventDefault();
+        const formData = {
+            status: e.target.status.value,
+        }
+
+        axiosSecure.put(`/all-requests/${isOpen._id}`, formData)
+            .then(res => {
+                Swal.fire({
+
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+                console.log(res);
+                fetchRequest();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+
+    };
+
 
     return (
         <div className='bg-red-50 min-h-screen'>
@@ -133,12 +161,12 @@ const VolunteerSeeAllRequest = () => {
                                     {/* Actions */}
                                     <td className="flex gap-2">
                                         <Link
-                                            to={`/dashboard/update-request/${request._id}`}
+                                            onClick={() => setIsOpen(request)}
                                             className="btn btn-xs btn-warning"
                                         >
                                             <FaEdit />
                                         </Link>
-                                        
+
                                         <Link
                                             to={`/dashboard/request-details/${request._id}`}
                                             className="btn btn-xs btn-info"
@@ -157,6 +185,57 @@ const VolunteerSeeAllRequest = () => {
 
                     </tbody>
                 </table>
+
+                {isOpen && (
+                    <div className="modal  modal-open">
+                        <div className="modal-box relative">
+                            {/* Close Icon */}
+                            <button
+                                className="absolute top-3 right-3 text-gray-400 "
+                                onClick={() => setIsOpen(null)}
+                            >
+                                <AiOutlineClose size={24} />
+                            </button>
+
+
+                            <div>
+                                <h2 className="text-3xl font-bold text-center ">
+                                    Update Status
+                                </h2>
+
+                                <form
+                                    onSubmit={handleUpdateSubmit}
+                                    className="space-y-4">
+
+                                    {/* status */}
+                                    <div>
+                                        <label className="block font-medium mb-1">Status</label>
+                                        <select
+                                            name='status'
+                                            className="select select-bordered w-full">
+                                            <option>Not Started</option>
+                                            <option>inprogress</option>
+                                            <option>pending</option>
+                                            <option>done</option>
+                                            <option>canceled</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Submit button */}
+                                    <button
+                                        type="submit"
+                                        className="btn btn-success w-full text-white"
+                                    >
+                                        Update
+                                    </button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                )}
+
+
             </div>
 
 

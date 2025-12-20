@@ -11,7 +11,7 @@ const MainDashboard = () => {
     return (
         <div className=" bg-red-50 min-h-screen">
 
-            <div className=" p-6  text-white text-center rounded-t-2xl  border-t-8 border-red-400 shadow mb-8">
+            <div className=" p-6  text-white text-center rounded-t-2xl  border-t-8 border-red-600 shadow mb-8">
                 <h1 className="text-2xl md:text-5xl text-red-600 font-bold">
                     <span className="text-blue-950">Welcome,</span>{user?.displayName || "Donor"}
                 </h1>

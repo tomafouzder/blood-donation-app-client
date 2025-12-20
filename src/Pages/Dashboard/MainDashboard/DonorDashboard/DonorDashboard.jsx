@@ -9,21 +9,22 @@ import Swal from "sweetalert2";
 const DonorDashboard = () => {
     const { user, loading } = useContext(AuthContext);
     const axiosSecure = useAxiosSecure();
-    const [request, setRequest] = useState()
+    const [request, setRequest] = useState([])
 
     const fetchRequest = () => {
         if (!user?.email) return;
 
         axiosSecure.get('/resent-request')
             .then(res => {
-                setRequest(res.data)
+                setRequest(res.data || [])
 
             });
     }
+    console.log(request)
 
     useEffect(() => {
         fetchRequest
-    }, [axiosSecure, user]);
+    }, [axiosSecure, user?.email]);
 
     const handleRequestDelete = (id) => {
         console.log(id)
@@ -71,7 +72,7 @@ const DonorDashboard = () => {
     return (
         <div>
 
-            {!loading && request?.length > 0 && (
+            { request?.length > 0 && (
                 <div className="bg-red-50  shadow">
                     <div className="px-4 py-6 ">
                         <h2 className="text-xl font-bold ">
@@ -97,36 +98,36 @@ const DonorDashboard = () => {
                             </thead>
 
                             <tbody >
-                                {request.map((req) => (
-                                    <tr key={req._id} className="text-gray-800  " >
-                                        <td>{req.recipientName}</td>
-                                        <td>{req.district}, {req.upazila}</td>
-                                        <td>{req.donationDate}</td>
-                                        <td>{req.donationTime}</td>
+                                {request?.map((req) => (
+                                    <tr key={req?._id} className="text-gray-800  " >
+                                        <td>{req?.recipientName}</td>
+                                        <td>{req?.district}, {req?.upazila}</td>
+                                        <td>{req?.donationDate}</td>
+                                        <td>{req?.donationTime}</td>
                                         <td>
                                             <span className="badge badge-error badge-outline">
-                                                {req.bloodGroup}
+                                                {req?.bloodGroup}
                                             </span>
                                         </td>
 
                                         {/* Status */}
                                         <td>
                                             <span className={`badge
-                        ${req.status === "pending" && "badge-warning"}
-                        ${req.status === "inprogress" && "badge-info"}
-                        ${req.status === "done" && "badge-success"}
-                        ${req.status === "canceled" && "badge-error"}
+                        ${req?.status === "pending" && "badge-warning"}
+                        ${req?.status === "inprogress" && "badge-info"}
+                        ${req?.status === "done" && "badge-success"}
+                        ${req?.status === "canceled" && "badge-error"}
                       `}>
-                                                {req.status}
+                                                {req?.status}
                                             </span>
                                         </td>
 
                                         {/* Donor Info */}
                                         <td>
-                                            {req.status === "inprogress" ? (
+                                            {req?.status === "inprogress" ? (
                                                 <div className="text-xs">
-                                                    <p>{req.requesterName}</p>
-                                                    <p className="text-gray-400">{req.requesterEmail}</p>
+                                                    <p>{req?.requesterName}</p>
+                                                    <p className="text-gray-400">{req?.requesterEmail}</p>
                                                 </div>
                                             ) : (
                                                 <span className="text-gray-500 text-xs">—</span>
@@ -136,7 +137,7 @@ const DonorDashboard = () => {
                                         {/* done/cancel */}
                                         <td className="">
                                             {/* Status Buttons */}
-                                            {req.status === "inprogress" ? (
+                                            {req?.status === "inprogress" ? (
                                                 <div>
                                                     <button
                                                         onClick={() => handleStatusChange(req?._id, "done")}
@@ -160,14 +161,14 @@ const DonorDashboard = () => {
                                         {/* Actions */}
                                         <td className="flex gap-2">
                                             <Link
-                                                to={`/dashboard/update-request/${req._id}`}
+                                                to={`/dashboard/update-request/${req?._id}`}
                                                 className="btn btn-xs btn-warning"
                                             >
                                                 <FaEdit />
                                             </Link>
 
                                             <button
-                                                onClick={() => handleRequestDelete(req._id)}
+                                                onClick={() => handleRequestDelete(req?._id)}
                                                 className="btn btn-xs btn-error"
                                             >
                                                 <FaTrash />
@@ -179,7 +180,7 @@ const DonorDashboard = () => {
                                         {/* view */}
                                         <td>
                                             <Link
-                                                to={`/dashboard/request-details/${req._id}`}
+                                                to={`/dashboard/request-details/${req?._id}`}
                                                 className="btn btn-xs btn-info"
                                             >
                                                 <FaEye />

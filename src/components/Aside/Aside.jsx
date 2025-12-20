@@ -7,10 +7,12 @@ import {
     FaUserShield,
     FaSignOutAlt,
     FaSignInAlt,
+    FaHome,
 } from "react-icons/fa";
 import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
 import AsideLinks from '../AsideLinks/AsideLinks';
+import { BiDonateBlood } from 'react-icons/bi';
 
 const Aside = () => {
     const { role, user, userSignOut } = useContext(AuthContext)
@@ -29,28 +31,32 @@ const Aside = () => {
 
 
     return (
-        <aside className="w-64 min-h-screen bg-gray-900 border-r border-gray-800">
+        <aside className="w-64 min-h-screen  bg-indigo-950 border-r border-gray-800">
             {/* Logo */}
             <div className="px-6 py-5 border-b border-gray-800">
-                <h1 className="text-xl font-bold text-red-500">
-                    Blood<span className="text-white">Vessel.</span>
+                <div className='flex text-2xl '>
+                    <BiDonateBlood className="text-white rotate-180" />
+                    <BiDonateBlood className="text-white" />
+                </div>
+                <h1 className="text-2xl font-bold text-red-500">
+                    Blood<span className="text-white text-xl mt-2">Vessel.</span>
                 </h1>
-                <p className="text-xs text-gray-400 mt-1">My Dashboard</p>
+                <p className="text-sm text-gray-400 mt-1">My Dashboard</p>
             </div>
 
             {/* Admin Info */}
             <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-800">
-                <div className="w-10 h-10 rounded-full bg-red-500 flex items-center justify-center text-white font-bold">
+                <div className="w-10 h-10 text-lg rounded-full bg-red-500 flex items-center justify-center text-white font-bold">
                     {user?.displayName?.charAt(0) || "U"}
                 </div>
                 <div>
-                    <p className="text-sm text-white font-semibold">{user?.displayName || "Unknown User"}</p>
+                    <p className=" text-lg text-white font-semibold">{user?.displayName || "Unknown User"}</p>
                     <p className="text-xs text-gray-400">{user?.email || ""}</p>
                 </div>
             </div>
 
             {/* Menu */}
-            <nav className="px-3 py-4 space-y-1">
+            <nav className="px-3   py-4 space-y-1">
 
                 <AsideLinks
                     to="/dashboard/main"
@@ -100,20 +106,20 @@ const Aside = () => {
 
                 >
                     <FaHandHoldingHeart />
-                   All Donation Requests
+                    All Donation Requests
                 </AsideLinks>
 
             </nav>
 
             {/* Logout */}
-            <div className="px-3 py-4 border-t border-gray-800">
+            <div className="px-3 grid grid-cols-1 gap-4 pt-24 border-t border-gray-600">
 
-                <Link to={"/"} className="w-full flex items-center gap-3 px-4 py-3 text-white hover:bg-gray-700 rounded-lg transition">
-                    <FaSignOutAlt />
+                <Link to={"/"} className=" btn btn-outline text-white hover:bg-gray-700 rounded-lg ">
+                   <FaHome />
                     Home
                 </Link>
 
-                <button onClick={handleLogOut} className="w-full flex items-center gap-3 px-4 py-3 text-red-400 hover:bg-gray-700 rounded-lg transition">
+                <button onClick={handleLogOut} className="btn btn-outline  text-white hover:bg-red-700 bg-red-600 rounded-lg">
                     <FaSignOutAlt />
                     Logout
                 </button>

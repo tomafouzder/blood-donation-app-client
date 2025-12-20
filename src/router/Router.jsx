@@ -84,12 +84,12 @@ const router = createBrowserRouter([
                 element: <Profile />
             },
             {
-                path: "update-request/:id",
-                element: <UpdateRequest />
-            },
-            {
                 path: "request-details/:id",
                 element: <RequestDetails />
+            },
+            {
+                path: "update-request/:id",
+                element: <UpdateRequest />
             },
         ]
     }

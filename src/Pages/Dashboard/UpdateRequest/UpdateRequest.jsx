@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthContext } from '../../../provider/AuthProvider';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
 import axios from 'axios';
@@ -11,10 +11,10 @@ const UpdateRequest = () => {
     const { id } = useParams();
 
     const axiosSecure = useAxiosSecure()
+    const [requests, setRequests] = useState(null)
 
     const [upazilas, setUpazilas] = useState([]);
     const [districts, setDistricts] = useState([]);
-    const [requests, setRequests] = useState(null)
 
     const [upazila, setUpazila] = useState('');
     const [district, setDistrict] = useState('');

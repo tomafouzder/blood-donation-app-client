@@ -4,6 +4,7 @@ import { FaTint, FaPaperPlane } from "react-icons/fa";
 import { AuthContext } from '../../../provider/AuthProvider';
 import axios from 'axios';
 import useAxiosSecure from '../../../hooks/useAxiosSecure';
+import { BiDonateBlood } from 'react-icons/bi';
 
 const AddRequest = () => {
     const { user } = useContext(AuthContext)
@@ -68,13 +69,18 @@ const AddRequest = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto p-6">
-            <div className="card bg-base-100 shadow-xl">
-                <div className="card-body">
-                    <h2 className="text-2xl  font-bold flex items-center gap-2 text-error">
-                        <FaTint /> Blood Donation Request
-                    </h2>
+        <div className="max-w-4xl overflow-y-auto mx-auto p-6">
+            <div className="card rounded-xl bg-base-100 shadow-xl border-b-4 border-t-8 border-blue-950">
 
+                <div className="bg-red-600 text-white p-6 flex items-center ">
+                    <div className='flex text-2xl md:text-4xl '>
+                        <BiDonateBlood className="text-white rotate-180" />
+                        <BiDonateBlood className="text-white" />
+                    </div>
+                    <h1 className="md:text-2xl text-lg font-bold"> Blood Donation Request </h1>
+                </div>
+
+                <div className="card-body">
                     <form onSubmit={handleRequestSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
 
                         {/* Requester Name */}
@@ -218,7 +224,7 @@ const AddRequest = () => {
 
                         {/* Submit Button */}
                         <div className="md:col-span-2">
-                            <button className="btn btn-error w-full flex gap-2">
+                            <button className="btn text-white bg-red-600 w-full flex gap-2">
                                 <FaPaperPlane /> Send Request
                             </button>
                         </div>

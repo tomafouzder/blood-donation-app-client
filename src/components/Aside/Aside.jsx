@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, NavLink } from "react-router";
 import {
     FaTachometerAlt,
@@ -13,9 +13,20 @@ import { AuthContext } from '../../provider/AuthProvider';
 import Swal from 'sweetalert2';
 import AsideLinks from '../AsideLinks/AsideLinks';
 import { BiDonateBlood } from 'react-icons/bi';
+import useAxiosSecure from '../../hooks/useAxiosSecure';
 
 const Aside = () => {
-    const { role, user, userSignOut } = useContext(AuthContext)
+    const { role, userSignOut } = useContext(AuthContext)
+    const axiosSecure = useAxiosSecure();
+    const [profile, setProfile] = useState({});
+
+    useEffect(() => {
+        axiosSecure.get(`/users/profile`)
+            .then(res => {
+                setProfile(res.data)
+            })
+    }, [axiosSecure])
+
 
     const handleLogOut = () => {
         userSignOut()
@@ -33,7 +44,7 @@ const Aside = () => {
     return (
         <aside className="w-64 min-h-screen  bg-indigo-950 border-r border-gray-800">
             {/* Logo */}
-            <div className="px-6 py-5 border-b border-gray-800">
+            <div className="px-6 py-5 border-b border-gray-600">
                 <div className='flex text-2xl '>
                     <BiDonateBlood className="text-white rotate-180" />
                     <BiDonateBlood className="text-white" />
@@ -45,13 +56,13 @@ const Aside = () => {
             </div>
 
             {/* Admin Info */}
-            <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-800">
+            <div className="px-6 py-4 flex items-center gap-3 border-b border-gray-600">
                 <div className="w-10 h-10 text-lg rounded-full bg-red-500 flex items-center justify-center text-white font-bold">
-                    {user?.displayName?.charAt(0) || "U"}
+                    {profile?.name?.charAt(0) || "U"}
                 </div>
                 <div>
-                    <p className=" text-lg text-white font-semibold">{user?.displayName || "Unknown User"}</p>
-                    <p className="text-xs text-gray-400">{user?.email || ""}</p>
+                    <p className=" text-lg text-white font-semibold">{profile?.name || "Unknown User"}</p>
+                    <p className="text-xs text-gray-400">{profile?.email || ""}</p>
                 </div>
             </div>
 
@@ -115,7 +126,7 @@ const Aside = () => {
             <div className="px-3 grid grid-cols-1 gap-4 pt-10 border-t border-gray-600">
 
                 <Link to={"/"} className=" btn btn-outline text-white hover:bg-gray-700 rounded-lg ">
-                   <FaHome />
+                    <FaHome />
                     Home
                 </Link>
 

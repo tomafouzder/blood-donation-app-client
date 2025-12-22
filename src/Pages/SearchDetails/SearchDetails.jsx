@@ -27,7 +27,7 @@ const SearchDetails = () => {
         fetchRequest();
     }, [axiosSecure])
 
-    console.log(requestDetails);
+    
 
     const handleConfirmDonation = () => {
         axiosSecure.patch("/update/request/status", {
@@ -67,9 +67,6 @@ const SearchDetails = () => {
                     <Link to="/search-request" className="btn btn-sm hidden btn-outline text-white border-white hover:bg-white hover:text-red-600 md:flex items-center gap-2">
                         <FaArrowLeft /> Back
                     </Link>
-
-
-
 
                 </div>
 

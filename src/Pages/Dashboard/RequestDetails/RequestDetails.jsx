@@ -19,7 +19,7 @@ const RequestDetails = () => {
             })
     }, [axiosSecure, id])
 
-    console.log(requestDetails);
+    
 
 
     const statusColors = {

@@ -108,7 +108,7 @@ const Register = () => {
                                     console.log(err)
                                 })
                             navigate("/");
-                            console.log(user)
+                         
                         })
                         .catch((error) => {
                             console.log(error);
@@ -133,7 +133,7 @@ const Register = () => {
                 <div className="hero-content flex-col lg:flex-row-reverse gap-30">
                     <div className="text-center lg:text-left">
 
-                        <h1 className="text-5xl font-bold text-center">Join EcoTrack</h1>
+                        <h1 className="text-5xl font-bold text-center">Join BloodVessel</h1>
                         <p className="py-6 text-center">
                             Get started with our app, just create an account and enjoy the experience.
                         </p>

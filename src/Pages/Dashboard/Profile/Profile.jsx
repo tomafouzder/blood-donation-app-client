@@ -18,7 +18,7 @@ const Profile = () => {
                 setProfile(res.data)
             })
     }, [axiosSecure])
-    console.log(profile)
+   
 
 
     // Handle input change

@@ -10,6 +10,8 @@ const SearchRequest = () => {
     const [district, setDistrict] = useState('');
     const [upazila, setUpazila] = useState('');
     const [bloodInfo, setBloodInfo] = useState([]);
+    const [isSearched, setIsSearched] = useState(false);
+
 
     useEffect(() => {
         axios.get('/upazila.json')
@@ -30,15 +32,16 @@ const SearchRequest = () => {
         axiosInstance.get(`/search-requests?bloodGroup=${bloodGroup}&district=${district}&upazila=${upazila}`)
             .then(res => {
                 setBloodInfo(res.data)
-                // console.log(res.data)
+                setIsSearched(true);
+                
             })
     }
 
-    console.log(bloodInfo)
+  
 
 
     return (
-        <div className='min-h-screen bg-amber-100'>
+        <div className='min-h-screen bg-red-50'>
             <div className='pt-24 container mx-auto '>
 
                 <div className='text-center pb-6 '>
@@ -64,7 +67,6 @@ const SearchRequest = () => {
                             <option value="O-">O-</option>
                         </select>
 
-
                         {/* districts */}
 
                         <select value={district} onChange={(e) => setDistrict(e.target.value)} className="select  ">
@@ -87,13 +89,26 @@ const SearchRequest = () => {
                     </form>
                 </div>
 
-                <div className='pb-24 pt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 '>
+
+                <div className='pb-12 pt-8'>
 
                     {
-                        bloodInfo.map(info => <BloodCard info={info} key={info._id}></BloodCard>)
+                        isSearched && bloodInfo.length > 0 ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {bloodInfo.map(info => (
+                                    <BloodCard key={info._id} info={info} />
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-center shadow bg-white   text-gray-500 text-lg py-10">
+                                ❌ No blood requests found for your search.
+                            </p>
+                        )
                     }
 
+
                 </div>
+
 
 
             </div>

@@ -25,7 +25,6 @@ const DonorDashboard = () => {
     }, [axiosSecure, user?.email, refetch]);
 
     const handleRequestDelete = (id) => {
-        console.log(id)
         Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
@@ -62,7 +61,6 @@ const DonorDashboard = () => {
     const handleStatusChange = (id, status) => {
         axiosSecure.patch(`/update/request/status?id=${id}&status=${status}`)
             .then(res => {
-                console.log(res.data)
                 setRefetch(res.data)
             })
     }

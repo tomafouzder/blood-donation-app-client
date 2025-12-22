@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
+import Loading from '../../components/Loading/Loading';
 ;
 
 
@@ -22,7 +23,7 @@ const RootLayout = () => {
                 <Navbar></Navbar>
             </header>
 
-            {loading ? (<p>Loading......</p>) :
+            {loading ? ( <Loading></Loading>) :
                 (<main className=''>
                     <Outlet></Outlet>
                 </main>)

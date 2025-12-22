@@ -34,11 +34,7 @@ const BloodCard = ({ info }) => {
                 </ul>
                 <div className="mt-6">
                     <Link to={`/search-details/${info._id}`}
-                        className={`btn btn-block btn-sm hidden 
-                          ${info?.status !== "pending"
-                                ? "btn-disabled"
-                                : "bg-red-600 text-white hover:bg-white hover:text-red-600"
-                            }`}
+                       className='btn btn-outline bg-red-600 text-white'
                         >View Details</Link>
                 </div>
             </div>

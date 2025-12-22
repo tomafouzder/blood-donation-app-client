@@ -15,32 +15,33 @@ const SearchDetails = () => {
     const [requestDetails, setRequestDetails] = useState(null)
     const [isOpen, setIsOpen] = useState(null);
 
-    useEffect(() => {
+    const fetchRequest = () => {
         if (!id) return;
         axiosSecure.get(`/all-requests/${id}`)
             .then(res => {
                 setRequestDetails(res.data.result)
             })
-    }, [axiosSecure, id])
+    }
+
+    useEffect(() => {
+        fetchRequest();
+    }, [axiosSecure])
 
     console.log(requestDetails);
 
-    const handleStatusChange = (e, id, status) => {
+    const handleConfirmDonation = () => {
+        axiosSecure.patch("/update/request/status", {
+            id: requestDetails?._id,
+            status: "inprogress",
+            donorName: user?.displayName,
+            donorEmail: user?.email
+        })
+            .then(() => {
+                setIsOpen(false);
+                fetchRequest(); 
+            });
+    };
 
-        e.preventDefault();
-
-        axiosSecure.patch(`/update/request/status?id=${id}&status=${status}`)
-            .then(res => {
-                console.log(res.data)
-                setRequestDetails(prev => ({
-                    ...prev,
-                    status: status
-                }));
-
-                setIsOpen(null);
-
-            })
-    }
 
 
     const statusColors = {
@@ -140,14 +141,14 @@ const SearchDetails = () => {
                             </span>
                         </div>
 
-                        <Link
-                            onSubmit={(e) =>
-                                handleStatusChange(e, requestDetails?._id, "inprogress")
-                            }
-                            className="btn btn-sm hidden btn-outline text-white bg-red-600  hover:bg-white hover:text-red-600 md:flex items-center gap-2">
-                            <FaArrowLeft /> Donate
-                        </Link>
-
+                        {requestDetails?.status === "pending" && (
+                            <button
+                                onClick={() => setIsOpen(true)}
+                                className="btn btn-sm bg-red-600 text-white"
+                            >
+                                Donate
+                            </button>
+                        )}
                         {/* Optional Actions */}
                         <div className=" flex flex-col-reverse md:flex-row items-center justify-between">
                             <div className="text-xl md:text-2xl font-semibold md:font-bold text-blue-950 ">
@@ -161,57 +162,51 @@ const SearchDetails = () => {
 
 
                         {isOpen && (
-                            <div className="modal  modal-open">
+                            <div className="modal modal-open">
                                 <div className="modal-box relative">
-                                    {/* Close Icon */}
+
                                     <button
-                                        className="absolute top-3 right-3 text-gray-400 "
-                                        onClick={() => setIsOpen(null)}
+                                        className="absolute top-3 right-3"
+                                        onClick={() => setIsOpen(false)}
                                     >
-                                        <AiOutlineClose size={24} />
+                                        <AiOutlineClose size={22} />
                                     </button>
 
+                                    <h2 className="text-2xl font-bold text-center mb-4">
+                                        Donor Information
+                                    </h2>
 
-                                    <div>
-                                        <h2 className="text-3xl font-bold text-center ">
-                                            Donor Information
-                                        </h2>
-
-                                        <form
-
-                                            className="space-y-4">
-
-                                            {/* Name */}
-                                            <div>
-                                                <label className="block font-medium mb-1">Donor Name</label>
-                                                <input
-                                                    defaultValue={user?.name}
-                                                    type="text"
-                                                    name="donorName" />
-                                            </div>
-
-                                            {/* email */}
-                                            <div>
-                                                <label className="block font-medium mb-1">Donor Name</label>
-                                                <input
-                                                    defaultValue={user?.email}
-                                                    type="text"
-                                                    name="donorName" />
-                                            </div>
-
-                                            {/* Submit button */}
-                                            <button
-                                                type="submit"
-                                                className="btn btn-success w-full text-white"
-                                            >
-                                                Confirm
-                                            </button>
-                                        </form>
+                                    {/* Donor Name */}
+                                    <div className="mb-3">
+                                        <label className="block font-medium">Donor Name</label>
+                                        <input
+                                            value={user?.displayName || ""}
+                                            readOnly
+                                            className="input input-bordered w-full"
+                                        />
                                     </div>
+
+                                    {/* Donor Email */}
+                                    <div className="mb-4">
+                                        <label className="block font-medium">Donor Email</label>
+                                        <input
+                                            value={user?.email || ""}
+                                            readOnly
+                                            className="input input-bordered w-full"
+                                        />
+                                    </div>
+
+                                    <button
+                                        onClick={handleConfirmDonation}
+                                        className="btn btn-success w-full text-white"
+                                    >
+                                        Confirm
+                                    </button>
 
                                 </div>
                             </div>
                         )}
+
 
                     </div>
                 </div>

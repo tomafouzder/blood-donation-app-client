@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import Navbar from '../../components/Navbar/Navbar';
+import Footer from '../../components/Footer/Footer';
 ;
 
 
@@ -27,7 +28,9 @@ const RootLayout = () => {
                 </main>)
             }
 
-          
+          <div>
+            <Footer></Footer>
+           </div>
 
         </div>
     );

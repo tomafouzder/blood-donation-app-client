@@ -18,6 +18,7 @@ import UpdateRequest from "../Pages/Dashboard/UpdateRequest/UpdateRequest";
 import AllRequest from "../Pages/AllRequest/AllRequest";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import RequestDetails from "../Pages/Dashboard/RequestDetails/RequestDetails";
+import SearchDetails from "../Pages/SearchDetails/SearchDetails";
 
 
 const router = createBrowserRouter([
@@ -56,6 +57,10 @@ const router = createBrowserRouter([
             {
                 path: "/donation-requests",
                 element: <DonationRequests />
+            },
+            {
+                path: "/search-details/:id",
+                element:<PrivateRoute><SearchDetails /></PrivateRoute> 
             },
         ]
     },

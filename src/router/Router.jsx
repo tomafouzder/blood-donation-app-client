@@ -19,12 +19,14 @@ import AllRequest from "../Pages/AllRequest/AllRequest";
 import Profile from "../Pages/Dashboard/Profile/Profile";
 import RequestDetails from "../Pages/Dashboard/RequestDetails/RequestDetails";
 import SearchDetails from "../Pages/SearchDetails/SearchDetails";
+import ErrorPage from "../components/ErrorPage/ErrorPage";
 
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <RootLayout></RootLayout>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: "/",
@@ -60,13 +62,14 @@ const router = createBrowserRouter([
             },
             {
                 path: "/search-details/:id",
-                element:<PrivateRoute><SearchDetails /></PrivateRoute> 
+                element: <PrivateRoute><SearchDetails /></PrivateRoute>
             },
         ]
     },
     {
         path: "dashboard",
         element: <PrivateRoute><DashBoardLayout /></PrivateRoute>,
+        errorElement: <ErrorPage />,
         children: [
             {
                 path: "main",
@@ -92,7 +95,7 @@ const router = createBrowserRouter([
                 path: "request-details/:id",
                 element: <RequestDetails />
             },
-             {
+            {
                 path: "update-request/:id",
                 element: <UpdateRequest />
             },
